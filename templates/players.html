@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEFA Champions League - Players Page</title>
+    <link rel="stylesheet" href="static/style.css"> <!-- Link to your CSS file -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js CDN -->
+</head>
+<body>
+
+<header>
+    <h1>UEFA Champions League - Player Stats</h1>
+</header>
+
+<main class="flex-col">
+    <!-- Player Ranking -->
+    <div class="flex-row">
+        <div class="club-goal" id="rank1">
+            <h4>Rank 1</h4>
+            <h2>Loading...</h2>
+            <p>Loading...</p>
+        </div>
+
+        <div class="club-goal" id="rank2">
+            <h4>Rank 2</h4>
+            <h2>Loading...</h2>
+            <p>Loading...</p>
+        </div>
+
+        <div class="club-goal" id="rank3">
+            <h4>Rank 3</h4>
+            <h2>Loading...</h2>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <h1>Goals Scored by Club Players</h1>
+
+    <!-- Dropdown for selecting clubs -->
+    <label for="club-select">Select a Club:</label>
+    <select id="club-select">
+        <option value="Bayern" selected>Bayern</option> <!-- Default club -->
+        <!-- Clubs will be dynamically populated -->
+    </select>
+
+    <!-- Canvas for rendering the chart -->
+    <div class="chart-container" style="width: 80%; height: 400px;">
+        <canvas id="goalsChart"></canvas>
+    </div>
+
+    <!-- Discipline Stats -->
+    
+    <section class="flex-col">
+        <!-- Search box for players -->
+        <label for="player-search">Search Player:</label>
+        <input type="text" id="player-search" placeholder="Type to search...">   
+        <!-- Player Dropdown -->
+        <label for="player-select">Select a Player:</label>
+        <select id="player-select">
+            <!-- Players will be dynamically populated -->
+        </select>
+    
+        <!-- Discipline Stats -->
+        <div class="flex-row">
+            <div class="chart-container" style="width: 30%;">
+                <h3>Pie Chart - Discipline</h3>
+                <canvas id="pieChart"></canvas>
+            </div>
+    
+            <div class="chart-container" style="width: 60%;">
+                <h3>Bar Chart - Discipline</h3>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Players Table -->
+    <div class="table-container">
+        <div class="flex-row" style="justify-content: space-between;">
+            <h1>Players Table</h1>
+            <div class="search-container">
+                <input type="text" id="searchPlayer" placeholder="Search by player name">
+                <input type="text" id="searchClub" placeholder="Search by club">
+            </div>
+        </div>
+
+        <table id="playersTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Club</th>
+                    <th>Position</th>
+                    <th>Minutes Played</th>
+                    <th>Matches Played</th>
+                    <th>Goals</th>
+                    <th>Assists</th>
+                    <th>Distance Covered</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated dynamically -->
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Include the scripts for handling data and charts -->
+<script src="static/scripts/rank.js"></script>
+<script src="static/scripts/clubs_goals.js"></script>
+<script src="static/scripts/discipline_charts.js"></script>
+<script src="static/scripts/players_table.js"></script>
+
+</body>
+</html>

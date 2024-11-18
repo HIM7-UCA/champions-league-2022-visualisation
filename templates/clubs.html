@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Goals by Club</title>
+    <link rel="stylesheet" href="static/style_club.css"> <!-- Link to your CSS file -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>Total Goals by Club</h1>
+
+<!-- Club Statistics Cards -->
+<div class="club-cards-container">
+    <div class="club-card" id="topClubCard">
+        <h4>Top Club</h4>
+        <h2 id="topClubName">Loading...</h2>
+        <p id="topClubGoals">Loading goals...</p>
+    </div>
+    <div class="club-card" id="secondTopClubCard">
+        <h4>Second Top Club</h4>
+        <h2 id="secondTopClubName">Loading...</h2>
+        <p id="secondTopClubGoals">Loading goals...</p>
+    </div>
+    <div class="club-card" id="lowestClubCard">
+        <h4>Lowest Club</h4>
+        <h2 id="lowestClubName">Loading...</h2>
+        <p id="lowestClubGoals">Loading goals...</p>
+    </div>
+</div>
+
+<div class="chart-container">
+    <canvas id="clubsBarChart"></canvas>
+</div>
+
+<h1>Goals by Position for Each Club</h1>
+<div class="chart-container">
+    <canvas id="positionsBarChart"></canvas>
+</div>
+
+<h1>Player Performance Heatmap</h1>
+<div class="chart-container">
+    <canvas id="performanceHeatmap"></canvas>
+</div>
+
+<script src="static/scripts/total_goals.js"></script>
+<script>
+    // Fetch data for the heatmap
+    async function fetchHeatmapData() {
+        const response = await fetch('/api/goals_by_position'); // Adjust this endpoint as needed
+        const data = await response.json();
+        return data;
+    }
+
+    async function renderHeatmap() {
+        const data = await fetchHeatmapData();
+        const players = data.map(player => player.player_name);
+        const positions = ['Forward', 'Midfielder', 'Defender'];
+        const heatmapData = positions.map(position => {
+            return {
+                x: position,
+                y: players,
+                value: data.filter(player => player.position === position).map(player => player.total_goals)
+            };
+        });
+
+        const ctx = document.getElementById('performanceHeatmap').getContext('2d');
+        const heatmapChart = new Chart(ctx, {
+            type: 'heatmap', // Change this to the appropriate type for your chart library
+            data: {
+                datasets: [{
+                    label: 'Goals by Player Position',
+                    data: heatmapData,
+                    backgroundColor: (context) => {
+                        const value = context.dataset.data[context.dataIndex].value;
+                        return value === 0 ? 'rgba(255, 99, 132, 0.5)' : 'rgba(54, 162, 235, 0.5)';
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Position'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Player'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    renderHeatmap();
+</script>
+
+</body>
+</html>
